@@ -7,105 +7,231 @@ const Intern = require("./lib/Intern")
 const team = require("./util/generateHtml")
 const generateHtml = require('./util/generateHtml')
 const emptyTeam = []
-const getName = ()=>{
-    inquirer.prompt([{
-        type:"input",
-        message:"What is this employees name?",
-        name:"name",
-        
-    }])
-}
-const getRole = ()=>{
-    inquirer.prompt([{
-        type:"list",
-        message:"What is this employees role?",
-        name:"role",
-        choices:["Engineer", "Intern"]        
-    }]).then(({newEmployee}) => {
 
-    })
-}
-const getId = ()=>{
-    inquirer.prompt([{
-        type:"input",
-        message:"What is this employees ID?",
-        name:"id",
-        
-    }])
-}
-const getEmail = ()=>{
-    inquirer.prompt([{
-        type:"input",
-        message:"What is this employees email?",
-        name:"email",
-        
-    }])
-}
 
-const getOuttaHere = ()=>{
-    inquirer.prompt([{
+
+// const getName = 
+//     inquirer.prompt([{
+//         type:"input",
+//         message:"What is this employees name?",
+//         name:"name",
+        
+//     }])
+
+// const getRole = 
+//     inquirer.prompt([{
+//         type:"list",
+//         message:"What is this employees role?",
+//         name:"role",
+//         choices:["Engineer", "Intern"]        
+//     }]).then(({newEmployee}) => {
+
+//     })
+
+// const getId = 
+//     inquirer.prompt([{
+//         type:"input",
+//         message:"What is this employees ID?",
+//         name:"id",
+        
+//     }])
+
+// const getEmail = 
+//     inquirer.prompt([{
+//         type:"input",
+//         message:"What is this employees email?",
+//         name:"email",
+        
+//     }])
+
+
+// const getOuttaHere = 
+//     inquirer.prompt([{
+//         type:"list",
+//         message:"Would you like to add a employee?",
+//         name:"quit",
+//         choices:["Yes", "Quit"]
+        
+//     }]).then(ans => {
+//         if (ans == "Quit"){
+//             generateHtml()
+//         } else {
+//             return
+//         }
+//     })
+
+
+// const getOfficeNumber = 
+//     inquirer.prompt([{
+//         type:"input",
+//         message:"What is their office number?",
+//         name:"office",
+        
+//     }])
+
+// const getSchool = 
+//     inquirer.prompt([{
+//         type:"input",
+//         message:"What is this employees school?",
+//         name:"school",
+
+//     }])
+
+// const getGithub =   
+//     inquirer.prompt([{
+    //         type:"input",
+    //         message:"What is this employees github?",
+    //         name:"github",
+    
+    //     }])
+
+// function generateHtml() {
+//     fs.writeFile("index.html",team(emptyTeam),(err,data)=>{
+//         if(err){
+//             throw err;
+//         }
+//         console.log("complete!")
+// })
+// } 
+
+
+function buildTeam(){
+    inquirer
+    .prompt([{
         type:"list",
         message:"Would you like to add a employee?",
         name:"quit",
         choices:["Yes", "Quit"]
-        
-    }]).then(ans => {
-        if (ans == "Quit"){
-            generateHtml()
+                
+            }
+    ])
+    .then(ans => {
+        if (ans.quit == "Quit"){
+            fs.writeFile("index.html",team(emptyTeam),(err,data)=>{
+                if(err){
+                    throw err;
+                }
+                console.log("complete!")})
         } else {
-            return
-        }
-    })
-}
+           inquirer.prompt([{
+                type:"list",
+                message:"What is this employees role?",
+                name:"role",
+                choices:["Engineer", "Intern"]        
+            }
+            ]).then(ans => {
+                if(ans.role == "Engineer"){inquirer
+                    .prompt([{
+                        type:"input",
+                        message:"What is this employees name?",
+                        name:"name",
 
-const getOfficeNumber = ()=>{
-    inquirer.prompt([{
+                    },
+                    {
+                        type:"input",
+                        message:"What is this employees email?",
+                        name:"email",
+                    },
+                    {
+                        type:"input",
+                        message:"What is this employees ID?",
+                        name:"id",
+                    },
+                    {
+                        type:"input",
+                        message:"What is this employees github?",
+                        name:"github",
+
+                    }]).then(ans => {
+                        const newEngi = new Engineer();
+                        newEngi.name=ans.name
+                        newEngi.email=ans.email
+                        newEngi.id=ans.id
+                        newEngi.github=ans.github
+                        emptyTeam.push(newEngi)
+                        console.log(emptyTeam)
+                        buildTeam();
+                    })
+
+                } else if (ans.role == "Intern"){
+                    inquirer
+                    .prompt([{
+                        type:"input",
+                        message:"What is this employees name?",
+                        name:"name",
+                        
+                    },
+                    {
+                        type:"input",
+                        message:"What is this employees email?",
+                        name:"email",
+                    },
+                    {
+                        type:"input",
+                        message:"What is this employees ID?",
+                        name:"id",
+                    },
+                    {
+                        type:"input",
+                        message:"What is this employees school?",
+                        name:"school",
+                        
+                    }]).then(ans => {
+                    const newIntern = new Intern();
+                    newIntern.name=ans.name
+                    newIntern.email=ans.email
+                    newIntern.id=ans.id
+                    newIntern.school=ans.school
+                    emptyTeam.push(newIntern)
+                    console.log(emptyTeam)
+                    buildTeam();
+                    })
+                }
+                
+            })
+
+        }
+            })
+
+}
+    
+function buildTeamManager(){
+    inquirer
+    .prompt([{
+        type:"input",
+        message:"What is this employees name?",
+        name:"name",
+        
+    },
+    {
+        type:"input",
+        message:"What is this employees email?",
+        name:"email",
+    },
+    {
         type:"input",
         message:"What is their office number?",
         name:"office",
-        
-    }])
-}
-const getSchool = ()=>{
-    inquirer.prompt([{
-        type:"input",
-        message:"What is this employees school?",
-        name:"school",
-        
-    }])
-}
-const getGithub = ()=>{
-  
-    inquirer.prompt([{
-        type:"input",
-        message:"What is this employees github?",
-        name:"github",
-        
-    }])
-    
-}
-const buildTeamManager = async () =>{
-    try {
-        await getOuttaHere();
-        const topGuyName = await getName();
-        const topGuyId = await getId();
-        const topGuyEmail = await getEmail();
-        const topGuyOfficeNumber = await getOfficeNumber();
+    },
+    {
+         type:"input",
+         message:"What is this employees ID?",
+         name:"id",
+         
+    }
+]).then((response)=>{
+    //whole manager object is response
         const topGuy = new Manager();
-        topGuy.name.push(topGuyName)
-        topGuy.id.push(topGuyId)
-        topGuy.email.push(topGuyEmail)
-        topGuy.officeNumber.push(topGuyOfficeNumber)
+        topGuy.name = response.name
+        topGuy.email = response.email
+        topGuy.id = response.id
+        topGuy.officeNumber = response.office
         emptyTeam.push(topGuy)
         console.log(emptyTeam)
         buildTeam()
-    } catch (err) {
-        console.log(err)
-    }
+    })
+
+
 }
 
 buildTeamManager();
-
-function buildTeam(){
-
-}

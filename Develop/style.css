@@ -1,0 +1,19 @@
+.jumbotron{
+    background: blue;
+    color: black;
+}
+
+.container{
+    width: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.card{
+    margin: 20px;
+    width: 350px;
+}
+.card-header{
+    background: rgb(44, 41, 209);
+    color: black;
+}
